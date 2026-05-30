@@ -743,6 +743,13 @@ export class AgentLoop {
       hasSystemPrompt: !!prepared.systemPrompt,
     });
 
+    const requestMetadata = {
+      ...(this.config.metadata ?? {}),
+      projectPath: this.config.cwd,
+      ...(this.config.permissionMode && this.config.permissionMode !== "default"
+        ? { permissionMode: this.config.permissionMode }
+        : {}),
+    };
     return {
       provider: this.config.provider,
       model: this.config.model,
@@ -754,7 +761,7 @@ export class AgentLoop {
       temperature: this.config.temperature,
       thinking: this.config.thinking,
       stream: true,
-      metadata: this.config.metadata,
+      metadata: Object.keys(requestMetadata).length > 0 ? requestMetadata : undefined,
       cacheBreakpoints: prepared.cacheBreakpoints,
     };
   }

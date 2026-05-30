@@ -110,8 +110,18 @@ async def handle_chat_completions(request: web.Request) -> web.StreamResponse:
     except json.JSONDecodeError:
         raise web.HTTPBadRequest(text=json.dumps({"error": "invalid json"}), content_type="application/json")
 
+    # Build a unique session ID for each HTTP request so concurrent
+    # requests don't contend on the same session_lock in agent_wrapper.
+    req_session_id = request.headers.get("X-Session-Id") or f"web-{uuid.uuid4().hex[:8]}"
     messages = body.get("messages", [])
     stream = body.get("stream", False)
+
+    # Read permission mode from metadata (set by HermesDeck Gateway for plan mode)
+    _metadata = body.get("metadata", {}) or {}
+    permission_mode = _metadata.get("permissionMode", "default")
+
+    # Read project path from metadata so sidecar knows the workspace
+    project_path = _metadata.get("projectPath", "")
 
     if not messages:
         raise web.HTTPBadRequest(text=json.dumps({"error": "no messages"}), content_type="application/json")
@@ -142,9 +152,11 @@ async def handle_chat_completions(request: web.Request) -> web.StreamResponse:
         # Process through Hermes Agent
         try:
             async for msg in wrapper.process(
-                session_id=request.headers.get("X-Session-Id", "http-bridge"),
+                session_id=req_session_id,
                 message=user_message,
                 history=history if history else None,
+                permission_mode=permission_mode,
+                project_path=project_path,
             ):
                 text = msg.text if hasattr(msg, "text") else ""
                 if text:
@@ -162,9 +174,11 @@ async def handle_chat_completions(request: web.Request) -> web.StreamResponse:
         # Non-streaming response (fallback)
         collected = []
         async for msg in wrapper.process(
-            session_id=request.headers.get("X-Session-Id", "http-bridge"),
+            session_id=req_session_id,
             message=user_message,
             history=history if history else None,
+            permission_mode=permission_mode,
+            project_path=project_path,
         ):
             text = msg.text if hasattr(msg, "text") else ""
             if text:

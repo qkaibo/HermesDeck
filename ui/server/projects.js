@@ -120,6 +120,8 @@ async function readMarkedProjectPaths() {
     }
     for (const entry of entries) {
         if (!entry.isDirectory()) continue;
+        // http-bridge is an internal session bridge, not a user project
+        if (entry.name === 'http-bridge') continue;
         const cwdFile = path.join(projectsDir, entry.name, '.cwd');
         try {
             const raw = await fs.readFile(cwdFile, 'utf8');

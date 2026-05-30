@@ -41,6 +41,20 @@ HERMESDECK_IDENTITY = (
     "- Never say 'Ready. What do you need?' or report your internal state."
 )
 
+PLAN_MODE_SYSTEM_PROMPT = (
+    "## PLAN MODE — READ-ONLY\n\n"
+    "You are in PLAN MODE. Your job is to analyze, research, and create a plan — "
+    "NOT to execute changes.\n\n"
+    "STRICT RULES:\n"
+    "- DO NOT use write_file, edit_file, or any filesystem write tool.\n"
+    "- DO NOT execute bash commands that modify files (mkdir, rm, mv, touch, git commit, etc).\n"
+    "- DO NOT use delegate_task or subagent tools for execution.\n"
+    "- DO: read code, search files, analyze architecture, and write your plan to a markdown "
+    "file under .pilotdeck/plans/ using write_file (plan directory writes are the ONLY exception).\n"
+    "- DO: use exit_plan_mode when your plan is complete.\n\n"
+    "If the user asks you to make changes, remind them to switch to Agent mode."
+)
+
 # Idle agent TTL — close agents not used for this many seconds
 _AGENT_IDLE_TTL = 600  # 10 minutes
 # Session history TTL — keep conversation memory across agent cleanups
@@ -141,6 +155,8 @@ class HermesAgentWrapper:
 
     async def process(
         self, session_id: str, message: str, history: Optional[List[Dict[str, Any]]] = None,
+        permission_mode: str = "default",
+        project_path: str = "",
     ) -> AsyncGenerator[Any, None]:
         """Process a user message with streaming response for a specific session.
 
@@ -166,6 +182,30 @@ class HermesAgentWrapper:
         # (before this turn). run_conversation adds user_message internally.
         prev_history = list(self._session_history[session_id])
 
+        # Resolve project workspace — prefer project_path from request metadata,
+        # fall back to .cwd file / session key parsing.
+        _workspace: Optional[str] = None
+        _pilot_home = os.environ.get("PILOT_HOME", str(Path.home() / ".hermesdeck"))
+        if project_path and os.path.isdir(project_path):
+            _workspace = project_path
+        else:
+            _cwd_file = Path(_pilot_home) / "projects" / session_id / ".cwd"
+            if _cwd_file.exists():
+                _workspace = _cwd_file.read_text().strip()
+            else:
+                # Fallback: parse project path from session key.
+                if "project=" in session_id:
+                    _project_part = session_id.split("project=", 1)[1]
+                    _project_path = _project_part.split(":s_", 1)[0] if ":s_" in _project_part else _project_part.split(":", 1)[0]
+                    if _project_path and os.path.isdir(_project_path):
+                        _workspace = _project_path
+
+        # Build system message for plan mode
+        _system_message: Optional[str] = None
+        if permission_mode == "plan":
+            _system_message = PLAN_MODE_SYSTEM_PROMPT
+            logger.info("Plan mode system prompt injected for session=%s", session_id)
+
         # Per-session lock — serialize access to each AIAgent for thread safety
         if session_id not in self._session_locks:
             self._session_locks[session_id] = threading.Lock()
@@ -187,7 +227,12 @@ class HermesAgentWrapper:
             queue.put(("tool_end", tool_call_id, name, result))
 
         def _run():
+            _saved_cwd = os.getcwd()
             try:
+                # Switch to project workspace so Hermes tools operate in the right directory
+                if _workspace and os.path.isdir(_workspace):
+                    os.chdir(_workspace)
+                    os.environ["TERMINAL_CWD"] = _workspace
                 # Per-session lock — only one thread runs on this agent at a time
                 with session_lock:
                     # Set callbacks on this session's agent — no race because
@@ -198,12 +243,14 @@ class HermesAgentWrapper:
 
                     agent.run_conversation(
                         user_message=message,
+                        system_message=_system_message,
                         conversation_history=prev_history or None,
                     )
             except Exception as e:
                 logger.error("Agent run error (session=%s): %s", session_id, e)
                 queue.put(("error", str(e)))
             finally:
+                os.chdir(_saved_cwd)
                 queue.put(_DONE)
 
         thread = threading.Thread(target=_run, daemon=True)
@@ -214,10 +261,11 @@ class HermesAgentWrapper:
         response_text_parts: List[str] = []
         while True:
             try:
-                item = queue.get(timeout=0.1)
+                item = queue.get_nowait()
             except __import__("queue").Empty:
                 if not thread.is_alive():
                     break
+                await asyncio.sleep(0.05)
                 continue
             if item is _DONE:
                 break
