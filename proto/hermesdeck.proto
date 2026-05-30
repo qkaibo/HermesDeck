@@ -1,0 +1,45 @@
+syntax = "proto3";
+package hermesdeck;
+option go_package = "github.com/hermesdeck/proto";
+
+service HermesDeckBridge {
+  rpc ProcessMessage(MessageRequest) returns (stream MessageResponse);
+  rpc ExecuteTool(ToolRequest) returns (ToolResponse);
+  rpc MemoryOp(MemoryRequest) returns (MemoryResponse);
+  rpc SkillOp(SkillRequest) returns (SkillResponse);
+  rpc RegisterTools(ToolRegistry) returns (RegisterAck);
+  rpc HealthCheck(HealthRequest) returns (HealthResponse);
+}
+
+message HealthRequest { string service = 1; }
+message HealthResponse { string service = 1; string status = 2; int64 timestamp = 3; string version = 4; }
+
+message MessageRequest {
+  string session_id = 1; string user_message = 2;
+  repeated ChatMessage history = 3; map<string,string> metadata = 4; bool stream = 5;
+}
+
+message MessageResponse {
+  oneof content { string text = 10; ToolCallRequest tool_call = 11; ErrorInfo error = 12; SessionStatus session = 13; }
+  string session_id = 1; bool is_final = 2; int32 sequence = 3;
+}
+
+message ToolCallRequest { string tool_call_id = 1; string tool_name = 2; string arguments_json = 3; string session_id = 4; }
+message ToolRequest { string tool_call_id = 1; string tool_name = 2; string arguments_json = 3; string session_id = 4; }
+message ToolResponse { string tool_call_id = 1; string result_json = 2; bool is_error = 3; string error_message = 4; int64 execution_ms = 5; }
+
+message ToolRegistry { string session_id = 1; repeated ToolDefinition tools = 2; }
+message ToolDefinition { string name = 1; string description = 2; string parameters_json_schema = 3; }
+message RegisterAck { bool success = 1; int32 registered_count = 2; string error_message = 3; }
+
+message MemoryRequest { string session_id = 1; string operation = 2; string namespace = 3; string key = 4; string value = 5; string query = 6; int32 limit = 7; }
+message MemoryResponse { bool success = 1; repeated MemoryItem items = 2; string error_message = 3; }
+message MemoryItem { string key = 1; string value = 2; string namespace = 3; double relevance = 4; int64 timestamp = 5; }
+
+message SkillRequest { string session_id = 1; string operation = 2; string skill_name = 3; string skill_content = 4; }
+message SkillResponse { bool success = 1; repeated SkillInfo skills = 2; string error_message = 3; }
+message SkillInfo { string name = 1; string description = 2; string version = 3; bool is_active = 4; int64 installed_at = 5; }
+
+message ChatMessage { string role = 1; string content = 2; string tool_call_id = 3; string tool_name = 4; string tool_result = 5; int64 timestamp = 6; }
+message ErrorInfo { string code = 1; string message = 2; bool recoverable = 3; }
+message SessionStatus { string session_id = 1; string status = 2; int32 tool_calls_count = 3; int64 tokens_used = 4; }

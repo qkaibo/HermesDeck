@@ -1,0 +1,32 @@
+# Binaries
+bin/
+
+# Dependencies
+node_modules/
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+dist/
+build/
+
+# Environment
+.env
+*.env.local
+
+# Logs
+*.log
+
+# Go
+*.exe
+*.test
+*.out
+.pids
+node_modules.bak/
+node_modules.bak/

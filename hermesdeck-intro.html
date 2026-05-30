@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HermesDeck</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #f0f4f8; font-family: 'Noto Sans SC', sans-serif; color: #1a202c; padding: 0; }
+  .container { max-width: 960px; margin: 0 auto; padding: 0 0 32px; }
+
+  .hero { background: #1a202c; text-align: center; padding: 48px 20px 40px; margin-bottom: 32px; }
+  .hero h1 { font-size: 38px; font-weight: 700; color: #ffffff; letter-spacing: -.5px; }
+  .hero .subtitle { font-size: 15px; color: #a0aec0; margin-top: 8px; }
+  .hero .badge-row { margin-top: 12px; }
+  .hero .badge { display: inline-block; background: #2d3748; color: #e2e8f0; font-size: 11px; padding: 3px 12px; border-radius: 10px; margin: 0 4px; border: 1px solid #4a5568; }
+  .badge-green { background: #1c4532; color: #9ae6b4; border-color: #276749; }
+  .badge-amber { background: #744210; color: #fbd38d; border-color: #975a16; }
+
+  .layer { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 20px; position: relative; }
+  .layer-title { font-size: 16px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .layer-title .icon { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .modules { display: grid; gap: 12px; }
+
+  .mod { background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; transition: box-shadow .2s; }
+  .mod:hover { box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .mod-name { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: #2d3748; margin-bottom: 4px; }
+  .mod-desc { font-size: 12px; color: #4a5568; line-height: 1.5; margin-bottom: 6px; }
+
+  .kp { display: inline-block; background: #ebf8ff; color: #2b6cb0; font-size: 10px; padding: 1px 7px; border-radius: 6px; margin: 2px 2px 2px 0; border: 1px solid #bee3f8; font-family: 'JetBrains Mono', monospace; }
+  .kp-green { background: #f0fff4; color: #276749; border-color: #c6f6d5; }
+  .kp-amber { background: #fffbeb; color: #92400e; border-color: #fef3c7; }
+  .kp-purple { background: #faf5ff; color: #553c9a; border-color: #e9d8fd; }
+  .kp-red { background: #fff5f5; color: #c53030; border-color: #fed7d7; }
+
+  .g2 { grid-template-columns: 1fr 1fr; }
+  .g3 { grid-template-columns: 1fr 1fr 1fr; }
+
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .compare-card { border-radius: 8px; padding: 14px; }
+  .compare-card.bad { background: #fff5f5; border: 1px solid #fed7d7; }
+  .compare-card.good { background: #f0fff4; border: 1px solid #c6f6d5; }
+  .compare-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+  .compare-card ul { list-style: none; padding: 0; }
+  .compare-card li { font-size: 12px; color: #4a5568; padding: 3px 0; line-height: 1.7; }
+  .compare-card .mk { font-weight: 700; margin-right: 6px; }
+  .compare-card .mk-bad { color: #c53030; }
+  .compare-card .mk-good { color: #276749; }
+
+  .footer { text-align: center; margin-top: 32px; font-size: 11px; color: #a0aec0; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="hero">
+  <h1>🔀 HermesDeck</h1>
+  <div class="subtitle">给你的 AI Agent 一个浏览器 &nbsp;|&nbsp; Memory 不丢 · 工具不砍 · 开箱即用</div>
+  <div class="badge-row">
+    <span class="badge">对话即资产</span>
+    <span class="badge badge-green">3 分钟上线</span>
+    <span class="badge badge-amber">全在本地</span>
+  </div>
+</div>
+
+<!-- Pain -->
+<div class="layer">
+  <div class="layer-title"><span class="icon" style="background:#fc8181"></span>Agent 很强，交互很弱。</div>
+  <div class="modules g2">
+    <div class="mod">
+      <div class="mod-name">🖥️ 只有你能用</div>
+      <div class="mod-desc">终端里敲命令——你行，别人不行。想分享出去？他们连怎么启动都不知道。</div>
+      <div><span class="kp-red">仅 CLI</span><span class="kp">无界面</span></div>
+    </div>
+    <div class="mod">
+      <div class="mod-name">💨 关了就没</div>
+      <div class="mod-desc">终端一关，对话蒸发。昨天聊到一半的方案，今天重新解释。Agent 有 Memory——但没人帮你存对话。</div>
+      <div><span class="kp-red">无持久化</span><span class="kp">上下文丢失</span></div>
+    </div>
+    <div class="mod">
+      <div class="mod-name">🤯 多任务地狱</div>
+      <div class="mod-desc">改 Bug、写文档、研究方案——三个终端，三个 Agent 实例。切来切去，哪个是哪个早忘了。</div>
+      <div><span class="kp-red">无隔离</span><span class="kp">多终端</span></div>
+    </div>
+    <div class="mod">
+      <div class="mod-name">🏗️ 自建成本</div>
+      <div class="mod-desc">WebSocket、session 管理、并发锁、持久化、前端 UI——每个都是深坑。你只想聊天，不是再造一个 ChatGPT。</div>
+      <div><span class="kp-red">1-2 周</span><span class="kp">全栈工程</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Solution -->
+<div class="layer">
+  <div class="layer-title"><span class="icon" style="background:#4299e1"></span>于是有了 HermesDeck</div>
+  <div class="mod" style="text-align:center;padding:24px;">
+    <div style="font-size:48px;font-weight:900;color:#2b6cb0;font-family:'JetBrains Mono',monospace;line-height:1;margin-bottom:8px;">3 分钟</div>
+    <div class="mod-desc" style="font-size:14px;max-width:500px;margin:0 auto;">
+      不是为了炫技。是因为相信一件事：<b>对话应该像文件一样持久，像标签页一样隔离，像聊天 App 一样自然。</b>
+    </div>
+    <div style="margin-top:10px;font-size:12px;color:#718096;font-style:italic;">
+      「你的 Agent 已经够聪明了。它缺的不是更强的模型，是一个体面的家。」
+    </div>
+  </div>
+</div>
+
+<!-- Philosophy -->
+<div class="layer">
+  <div class="layer-title"><span class="icon" style="background:#48bb78"></span>六个原则，贯穿始终。</div>
+  <div class="modules g3">
+    <div class="mod">
+      <div class="mod-name">01 对话即资产</div>
+      <div class="mod-desc">每轮自动存盘。重启、崩溃——历史完整恢复。不是缓存，是档案。</div>
+      <div><span class="kp-green">自动持久化</span><span class="kp">JSONL 转录</span></div>
+    </div>
+    <div class="mod">
+      <div class="mod-name">02 会话即容器</div>
+      <div class="mod-desc">每个标签页独立世界。自己的 Agent、上下文、历史。互不干扰。</div>
+      <div><span class="kp-green">Per-Session 隔离</span><span class="kp">独立实例</span></div>
+    </div>
+    <div class="mod">
+      <div class="mod-name">03 恢复即常态</div>
+      <div class="mod-desc">设计假设进程随时会死。JSONL 是唯一真相。重启不靠运气——靠设计。</div>
+      <div><span class="kp-green">Crash Recovery</span><span class="kp">Replay 重建</span></div>
+    </div>
+    <div class="mod">
+      <div class="mod-name">04 隔离即安全</div>
+      <div class="mod-desc">同会话内请求严格串行。不是加锁——从设计上就不可能并发冲突。</div>
+      <div><span class="kp-amber">beginTurn/endTurn</span><span class="kp">session_busy</span></div>
+    </div>
+    <div class="mod">
+      <div class="mod-name">05 能力即完整</div>
+      <div class="mod-desc">Web 版不阉割。Memory、Skills、全工具链——和终端版完全一样。</div>
+      <div><span class="kp-purple">skip_memory=False</span><span class="kp">toolsets=["*"]</span></div>
+    </div>
+    <div class="mod">
+      <div class="mod-name">06 闲置即释放</div>
+      <div class="mod-desc">不聊了，资源自动回收。不需要 cron、不需要手动清理。</div>
+      <div><span class="kp-amber">10min idle TTL</span><span class="kp">sweepIdle 30min</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Experience -->
+<div class="layer">
+  <div class="layer-title"><span class="icon" style="background:#9f7aea"></span>用起来什么感觉。</div>
+  <div class="modules g3">
+    <div class="mod" style="text-align:center"><div class="mod-name">🧠 能力不打折</div><div class="mod-desc">Memory、Skills、工具——全在。</div></div>
+    <div class="mod" style="text-align:center"><div class="mod-name">🔄 模型任意换</div><div class="mod-desc">改个名字就切。秒生效。</div></div>
+    <div class="mod" style="text-align:center"><div class="mod-name">💬 对话永远在</div><div class="mod-desc">关多久都在，跟没关过一样。</div></div>
+    <div class="mod" style="text-align:center"><div class="mod-name">🗂️ 多项目并行</div><div class="mod-desc">三个标签页，三个 Agent。</div></div>
+    <div class="mod" style="text-align:center"><div class="mod-name">⚡ 流式输出</div><div class="mod-desc">不等完整回复，字一个字蹦。</div></div>
+    <div class="mod" style="text-align:center"><div class="mod-name">🏠 全在本地</div><div class="mod-desc">你的数据，你的硬盘。</div></div>
+  </div>
+</div>
+
+<!-- Compare -->
+<div class="layer">
+  <div class="layer-title"><span class="icon" style="background:#f59e0b"></span>有和没有。</div>
+  <div class="compare">
+    <div class="compare-card bad">
+      <h4 style="color:#c53030">✕ 没有 HermesDeck</h4>
+      <ul>
+        <li>· 困在终端，只有你能用</li>
+        <li>· 关了对话全丢</li>
+        <li>· 多任务 = 多终端，脑子炸</li>
+        <li>· 分享得教人敲命令</li>
+        <li>· 自己搭界面至少一周起步</li>
+        <li>· 并发、存盘、回收全自己写</li>
+      </ul>
+    </div>
+    <div class="compare-card good">
+      <h4 style="color:#276749">✓ 有了 HermesDeck</h4>
+      <ul>
+        <li>· 浏览器打开，谁都能用</li>
+        <li>· 对话自动永久保存</li>
+        <li>· 标签页天然隔离</li>
+        <li>· 漂亮界面，零学习成本</li>
+        <li>· 一条命令，三分钟上线</li>
+        <li>· 并发、存盘、回收全自动</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Who -->
+<div class="layer">
+  <div class="layer-title"><span class="icon" style="background:#4299e1"></span>谁需要？</div>
+  <div class="modules g2">
+    <div class="mod">
+      <div class="mod-name">AI 工具开发者</div>
+      <div class="mod-desc">你的 Agent 很强，它值得比终端更好的交互方式。</div>
+      <div><span class="kp-green">开发者</span></div>
+    </div>
+    <div class="mod">
+      <div class="mod-name">团队非技术同事</div>
+      <div class="mod-desc">不需要学命令行。打开浏览器，开始聊。零门槛。</div>
+      <div><span class="kp">团队成员</span></div>
+    </div>
+    <div class="mod">
+      <div class="mod-name">多项目并行的你</div>
+      <div class="mod-desc">左边修 Bug、右边写方案、中间查文档。标签页切换，脑子不切换。</div>
+      <div><span class="kp-purple">多任务</span></div>
+    </div>
+    <div class="mod">
+      <div class="mod-name">珍视对话的你</div>
+      <div class="mod-desc">昨天的讨论、上周的分析、上月的决策——都在，随时翻出来继续。</div>
+      <div><span class="kp-amber">知识积累</span></div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:16px;font-size:15px;font-weight:700;color:#2b6cb0;">
+    全在本地 · 全部免费 · 全由你控制
+  </div>
+</div>
+
+<div class="footer">HermesDeck · 对话即资产 · v3 · 2026</div>
+
+</div>
+</body>
+</html>

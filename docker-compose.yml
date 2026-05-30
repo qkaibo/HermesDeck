@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  python-sidecar:
+    build: {context: ., dockerfile: docker/Dockerfile.py}
+    container_name: hermesdeck-py
+    ports: ["50052:50052"]
+    volumes: [hermes_data:/data]
+    environment: [HERMES_HOME=/data]
+    networks: [hermesdeck-net]
+  go-runtime:
+    build: {context: ., dockerfile: docker/Dockerfile.go}
+    container_name: hermesdeck-go
+    ports: ["8080:8080", "50051:50051"]
+    depends_on: [python-sidecar]
+    environment: [PYTHON_SIDECAR_ADDR=python-sidecar:50052, LISTEN_ADDR=:50051, WEB_ADDR=:8080]
+    networks: [hermesdeck-net]
+volumes: {hermes_data:}
+networks: {hermesdeck-net: {driver: bridge}}

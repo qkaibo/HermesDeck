@@ -1,0 +1,272 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>body{margin:0;padding:0;background:#f8fafc;}</style></head><body>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1050" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <defs>
+    <marker id="ac" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#2563eb"/></marker>
+    <marker id="ag" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#059669"/></marker>
+    <marker id="ap" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#7c3aed"/></marker>
+    <marker id="ao" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#d97706"/></marker>
+    <marker id="as" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#64748b"/></marker>
+    <marker id="ar" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#dc2626"/></marker>
+    <marker id="av" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#8b5cf6"/></marker>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f8fafc"/><stop offset="100%" stop-color="#f1f5f9"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="1" stdDeviation="2" flood-opacity="0.08"/></filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1400" height="1050" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1400" height="1050" fill="#f8fafc"/>
+
+  <!-- ════════════════════════════════════════════════════ TITLE ════════════════════════════════════════════════════ -->
+  <text x="700" y="32" fill="#0f172a" font-size="22" font-weight="bold" text-anchor="middle">HermesDeck v3 — 完整架构图</text>
+  <text x="700" y="52" fill="#64748b" font-size="12" text-anchor="middle">Hermes Agent × PilotDeck Fusion &nbsp;|&nbsp; OpenAI HTTP/SSE Bridge &nbsp;|&nbsp; 3 Services &nbsp;|&nbsp; 3 Ports &nbsp;|&nbsp; 5 Data Stores</text>
+
+  <!-- ════════════════════════════════════════════════════ LEGEND ════════════════════════════════════════════════════ -->
+  <rect x="1100" y="8" width="285" height="155" rx="6" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="1242" y="28" fill="#0f172a" font-size="11" font-weight="bold" text-anchor="middle">图例</text>
+  <rect x="1115" y="38" width="14" height="10" rx="2" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"/>
+  <text x="1135" y="47" fill="#475569" font-size="9">客户端 / UI 层</text>
+  <rect x="1115" y="55" width="14" height="10" rx="2" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1"/>
+  <text x="1135" y="64" fill="#475569" font-size="9">Node.js Gateway 层</text>
+  <rect x="1115" y="72" width="14" height="10" rx="2" fill="#ede9fe" stroke="#c4b5fd" stroke-width="1"/>
+  <text x="1135" y="81" fill="#475569" font-size="9">Python Bridge 层</text>
+  <rect x="1115" y="89" width="14" height="10" rx="2" fill="#fef3c7" stroke="#fcd34d" stroke-width="1"/>
+  <text x="1135" y="98" fill="#475569" font-size="9">持久化 / 配置层</text>
+  <rect x="1115" y="106" width="14" height="10" rx="2" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="1135" y="115" fill="#475569" font-size="9">外部服务</text>
+  <line x1="1115" y1="128" x2="1129" y2="128" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="1135" y="132" fill="#475569" font-size="9">WebSocket</text>
+  <line x1="1115" y1="144" x2="1129" y2="144" stroke="#059669" stroke-width="1.5"/>
+  <text x="1135" y="148" fill="#475569" font-size="9">HTTP / SSE</text>
+  <line x1="1145" y1="160" x2="1159" y2="160" stroke="#dc2626" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="1165" y="155" fill="#475569" font-size="9">文件 I/O</text>
+
+  <!-- ════════════════════════════════════════════════════ CLIENT LAYER ════════════════════════════════════════════════════ -->
+  <rect x="15" y="68" width="1370" height="95" rx="8" fill="#fff" stroke="#e2e8f0" stroke-width="1" filter="url(#shadow)"/>
+  <text x="30" y="88" fill="#2563eb" font-size="13" font-weight="bold">Layer 1 — 客户端</text>
+
+  <!-- Browser -->
+  <rect x="30" y="100" width="180" height="48" rx="5" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"/>
+  <text x="120" y="120" fill="#1e3a5f" font-size="12" font-weight="bold" text-anchor="middle">🌐 Browser</text>
+  <text x="120" y="138" fill="#64748b" font-size="9" text-anchor="middle">WebSocket Client</text>
+
+  <!-- Arrow Browser → UI -->
+  <line x1="210" y1="124" x2="245" y2="124" stroke="#2563eb" stroke-width="1.5" marker-end="url(#ac)"/>
+
+  <!-- PilotDeck UI -->
+  <rect x="250" y="100" width="210" height="48" rx="5" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"/>
+  <text x="355" y="120" fill="#1e3a5f" font-size="12" font-weight="bold" text-anchor="middle">PilotDeck UI (React)</text>
+  <text x="355" y="138" fill="#64748b" font-size="9" text-anchor="middle">Vite · Tailwind · TSX</text>
+
+  <!-- Arrow UI → Express -->
+  <line x1="460" y1="124" x2="495" y2="124" stroke="#2563eb" stroke-width="1.5" marker-end="url(#ac)"/>
+
+  <!-- Express Server -->
+  <rect x="500" y="100" width="180" height="48" rx="5" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"/>
+  <text x="590" y="120" fill="#1e3a5f" font-size="12" font-weight="bold" text-anchor="middle">Express UI Server</text>
+  <text x="590" y="138" fill="#64748b" font-size="9" text-anchor="middle">Port :28789 · Static Files</text>
+
+  <!-- WS arrow Browser → Gateway -->
+  <path d="M 120 148 L 120 168 Q 120 180 135 180 L 680 180 Q 695 180 695 192 L 695 198" fill="none" stroke="#2563eb" stroke-width="1.5" marker-end="url(#ac)"/>
+  <text x="350" y="175" fill="#2563eb" font-size="9">WebSocket upgrade → ws://127.0.0.1:28788/ws</text>
+
+  <!-- ════════════════════════════════════════════════════ GATEWAY LAYER ════════════════════════════════════════════════════ -->
+  <rect x="15" y="200" width="1370" height="530" rx="8" fill="#fff" stroke="#e2e8f0" stroke-width="1" filter="url(#shadow)"/>
+  <text x="30" y="220" fill="#059669" font-size="13" font-weight="bold">Layer 2 — PilotDeck Gateway (Node.js) · Port :28788 · hermesdeck-gateway.mjs (40 行)</text>
+
+  <!-- ─── Gateway region box ─── -->
+  <rect x="30" y="235" width="700" height="300" rx="6" fill="#f0fdf4" stroke="#86efac" stroke-width="1.2" stroke-dasharray="6,3"/>
+  <text x="42" y="252" fill="#065f46" font-size="10" font-weight="bold">PilotDeck 原生 Gateway · createLocalGateway() + startPilotDeckServer()</text>
+
+  <!-- GatewayWsConnection -->
+  <rect x="50" y="268" width="190" height="55" rx="5" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1"/>
+  <text x="145" y="288" fill="#065f46" font-size="11" font-weight="bold" text-anchor="middle">GatewayWsConnection</text>
+  <text x="145" y="302" fill="#475569" font-size="8" text-anchor="middle">WebSocket message handler</text>
+  <text x="145" y="314" fill="#94a3b8" font-size="7" text-anchor="middle">接收消息 · void Promise</text>
+
+  <!-- InProcessGateway -->
+  <rect x="290" y="268" width="190" height="55" rx="5" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1"/>
+  <text x="385" y="288" fill="#065f46" font-size="11" font-weight="bold" text-anchor="middle">InProcessGateway</text>
+  <text x="385" y="302" fill="#475569" font-size="8" text-anchor="middle">.submitTurn()</text>
+  <text x="385" y="314" fill="#94a3b8" font-size="7" text-anchor="middle">进程内 · 无修改</text>
+
+  <!-- arrow WsConn → InProcess -->
+  <line x1="240" y1="295" x2="288" y2="295" stroke="#059669" stroke-width="1.5" marker-end="url(#ag)"/>
+  <text x="255" y="290" fill="#059669" font-size="8">msg</text>
+
+  <!-- SessionRouter -->
+  <rect x="530" y="268" width="190" height="55" rx="5" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1"/>
+  <text x="625" y="288" fill="#065f46" font-size="11" font-weight="bold" text-anchor="middle">SessionRouter</text>
+  <text x="625" y="302" fill="#475569" font-size="8" text-anchor="middle">beginTurn() / endTurn()</text>
+  <text x="625" y="314" fill="#94a3b8" font-size="7" text-anchor="middle">并发保护 · inFlightTurns</text>
+
+  <!-- arrow InProcess → SessionRouter -->
+  <line x1="480" y1="295" x2="528" y2="295" stroke="#059669" stroke-width="1.5" marker-end="url(#ag)"/>
+
+  <!-- AgentSession -->
+  <rect x="290" y="350" width="190" height="55" rx="5" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1"/>
+  <text x="385" y="370" fill="#065f46" font-size="11" font-weight="bold" text-anchor="middle">AgentSession</text>
+  <text x="385" y="384" fill="#475569" font-size="8" text-anchor="middle">state.messages[]</text>
+  <text x="385" y="396" fill="#94a3b8" font-size="7" text-anchor="middle">完整对话历史</text>
+
+  <!-- arrow SessionRouter → AgentSession -->
+  <line x1="625" y1="295" x2="600" y2="325" stroke="#059669" stroke-width="1" stroke-dasharray="3,2"/>
+
+  <!-- TurnRunner -->
+  <rect x="50" y="435" width="670" height="70" rx="5" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1"/>
+  <text x="385" y="458" fill="#065f46" font-size="12" font-weight="bold" text-anchor="middle">TurnRunner.run()</text>
+  <text x="385" y="475" fill="#475569" font-size="9" text-anchor="middle">组装 OpenAI messages[] → HTTP POST /v1/chat/completions → 接收 SSE 流</text>
+  <text x="385" y="492" fill="#94a3b8" font-size="8" text-anchor="middle">自动写入 JSONL transcript · 更新 state.messages · 更新 usage 统计</text>
+
+  <!-- arrows AgentSession → TurnRunner -->
+  <path d="M 385 405 L 385 420 Q 385 430 375 430 L 375 433" fill="none" stroke="#059669" stroke-width="1.5" marker-end="url(#ag)"/>
+  <path d="M 625 325 L 625 400 Q 625 415 640 415 L 680 415 Q 695 415 695 425 L 695 433" fill="none" stroke="#059669" stroke-width="1.5" marker-end="url(#ag)"/>
+
+  <!-- Session management notes -->
+  <rect x="50" y="350" width="220" height="55" rx="5" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="60" y="368" fill="#475569" font-size="9" font-weight="bold">Session 生命周期</text>
+  <text x="60" y="382" fill="#94a3b8" font-size="8">· 30min 空闲 → sweepIdle() 回收</text>
+  <text x="60" y="394" fill="#94a3b8" font-size="8">· 重启 → resumeAgentSession()</text>
+
+  <!-- ─── Python Bridge region box ─── -->
+  <rect x="770" y="235" width="600" height="300" rx="6" fill="#f5f3ff" stroke="#c4b5fd" stroke-width="1.2" stroke-dasharray="6,3"/>
+  <text x="782" y="252" fill="#5b21b6" font-size="10" font-weight="bold">Python HTTP Bridge · Port :29553 · 538 行</text>
+
+  <!-- http_bridge.py -->
+  <rect x="790" y="268" width="560" height="55" rx="5" fill="#ede9fe" stroke="#c4b5fd" stroke-width="1"/>
+  <text x="1070" y="288" fill="#5b21b6" font-size="11" font-weight="bold" text-anchor="middle">http_bridge.py (aiohttp)</text>
+  <text x="1070" y="302" fill="#475569" font-size="8" text-anchor="middle">POST /v1/chat/completions · GET /health · SSE StreamResponse</text>
+  <text x="1070" y="314" fill="#94a3b8" font-size="7" text-anchor="middle">extract_user_message() → 解析 messages[] → 排除 system/tool 消息</text>
+
+  <!-- arrow TurnRunner → http_bridge -->
+  <line x1="720" y1="470" x2="788" y2="296" stroke="#7c3aed" stroke-width="2" marker-end="url(#ap)"/>
+  <text x="745" y="378" fill="#7c3aed" font-size="8">HTTP POST</text>
+  <text x="745" y="390" fill="#7c3aed" font-size="8">SSE Stream</text>
+
+  <!-- HermesAgentWrapper -->
+  <rect x="790" y="350" width="560" height="55" rx="5" fill="#ede9fe" stroke="#c4b5fd" stroke-width="1"/>
+  <text x="1070" y="370" fill="#5b21b6" font-size="11" font-weight="bold" text-anchor="middle">HermesAgentWrapper (agent_wrapper.py)</text>
+  <text x="1070" y="384" fill="#475569" font-size="8" text-anchor="middle">per-session AIAgent pool · thread-safe queue · double-check lock</text>
+  <text x="1070" y="396" fill="#94a3b8" font-size="7" text-anchor="middle">_agents dict · _session_locks dict · cleanup loop (10m agent / 24h history)</text>
+
+  <!-- arrow http_bridge → wrapper -->
+  <path d="M 1070 323 L 1070 340 Q 1070 348 1070 348 L 1070 348" fill="none" stroke="#7c3aed" stroke-width="1.5" marker-end="url(#ap)"/>
+
+  <!-- AIAgent -->
+  <rect x="790" y="435" width="560" height="70" rx="5" fill="#ede9fe" stroke="#c4b5fd" stroke-width="1"/>
+  <text x="1070" y="458" fill="#5b21b6" font-size="12" font-weight="bold" text-anchor="middle">AIAgent (run_agent.py — Hermes Agent 核心)</text>
+  <text x="1070" y="475" fill="#475569" font-size="9" text-anchor="middle">quiet_mode · skip_context_files · enabled_toolsets=[*] · chat_type=web · platform=hermesdeck</text>
+  <text x="1070" y="492" fill="#94a3b8" font-size="8" text-anchor="middle">system prompt · memory loading · skill loading · tool execution · stream_delta_callback</text>
+
+  <!-- arrow wrapper → AIAgent -->
+  <path d="M 1070 405 L 1070 420 Q 1070 430 1070 433" fill="none" stroke="#7c3aed" stroke-width="1.5" marker-end="url(#ap)"/>
+
+  <!-- Thread model note -->
+  <rect x="790" y="518" width="270" height="55" rx="5" fill="#fff" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="800" y="536" fill="#475569" font-size="9" font-weight="bold">线程模型</text>
+  <text x="800" y="550" fill="#94a3b8" font-size="8">AIAgent 在独立 daemon 线程运行</text>
+  <text x="800" y="562" fill="#94a3b8" font-size="8">主 asyncio loop 轮询 queue.get(0.1s)</text>
+
+  <!-- DeepSeek API -->
+  <rect x="1100" y="350" width="250" height="55" rx="5" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="1225" y="372" fill="#334155" font-size="11" font-weight="bold" text-anchor="middle">DeepSeek API</text>
+  <text x="1225" y="388" fill="#64748b" font-size="8" text-anchor="middle">api.deepseek.com · HTTPS</text>
+  <text x="1225" y="400" fill="#94a3b8" font-size="7" text-anchor="middle">deepseek-v4-flash / pro</text>
+
+  <!-- arrow AIAgent → DeepSeek -->
+  <line x1="1350" y1="470" x2="1350" y2="405" stroke="#64748b" stroke-width="1.5" marker-end="url(#as)"/>
+  <text x="1360" y="440" fill="#64748b" font-size="7">HTTPS</text>
+
+  <!-- SSE return flow -->
+  <path d="M 1225 405 L 1225 440 Q 1225 460 1200 460 L 1100 460 Q 1080 460 1080 480 L 1080 510" fill="none" stroke="#7c3aed" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#ap)"/>
+  <text x="1160" y="455" fill="#7c3aed" font-size="7">text callback → queue → SSE chunk</text>
+
+  <!-- ════════════════════════════════════════════════════ DATA LAYER ════════════════════════════════════════════════════ -->
+  <rect x="15" y="750" width="1370" height="130" rx="8" fill="#fff" stroke="#e2e8f0" stroke-width="1" filter="url(#shadow)"/>
+  <text x="30" y="770" fill="#d97706" font-size="13" font-weight="bold">Layer 3 — 持久化 &amp; 配置层 · PILOT_HOME=~/.hermesdeck/</text>
+
+  <!-- pilotdeck.yaml -->
+  <rect x="30" y="785" width="240" height="75" rx="5" fill="#fef3c7" stroke="#fcd34d" stroke-width="1"/>
+  <text x="150" y="805" fill="#92400e" font-size="11" font-weight="bold" text-anchor="middle">pilotdeck.yaml</text>
+  <text x="150" y="820" fill="#78716c" font-size="8" text-anchor="middle">~/.hermesdeck/pilotdeck.yaml</text>
+  <text x="150" y="834" fill="#a8a29e" font-size="7" text-anchor="middle">agent.model · providers · router</text>
+  <text x="150" y="846" fill="#a8a29e" font-size="7" text-anchor="middle">tokenSaver.enabled: false</text>
+
+  <!-- JSONL Transcripts -->
+  <rect x="290" y="785" width="250" height="75" rx="5" fill="#fef3c7" stroke="#fcd34d" stroke-width="1"/>
+  <text x="415" y="805" fill="#92400e" font-size="11" font-weight="bold" text-anchor="middle">JSONL Transcripts</text>
+  <text x="415" y="820" fill="#78716c" font-size="8" text-anchor="middle">~/.hermesdeck/projects/*/chats/*.jsonl</text>
+  <text x="415" y="834" fill="#a8a29e" font-size="7" text-anchor="middle">accepted_input · assistant_message</text>
+  <text x="415" y="846" fill="#a8a29e" font-size="7" text-anchor="middle">turn_result (含 permissionDenials)</text>
+
+  <!-- auth.db -->
+  <rect x="560" y="785" width="230" height="75" rx="5" fill="#fef3c7" stroke="#fcd34d" stroke-width="1"/>
+  <text x="675" y="805" fill="#92400e" font-size="11" font-weight="bold" text-anchor="middle">auth.db + server-token</text>
+  <text x="675" y="820" fill="#78716c" font-size="8" text-anchor="middle">~/.hermesdeck/auth.db</text>
+  <text x="675" y="834" fill="#a8a29e" font-size="7" text-anchor="middle">~/.hermesdeck/server-token</text>
+  <text x="675" y="846" fill="#a8a29e" font-size="7" text-anchor="middle">Gateway 认证凭据</text>
+
+  <!-- Hermes Config -->
+  <rect x="810" y="785" width="250" height="75" rx="5" fill="#fef3c7" stroke="#fcd34d" stroke-width="1"/>
+  <text x="935" y="805" fill="#92400e" font-size="11" font-weight="bold" text-anchor="middle">Hermes Config</text>
+  <text x="935" y="820" fill="#78716c" font-size="8" text-anchor="middle">~/.hermes/profiles/feishu-bot1/</text>
+  <text x="935" y="834" fill="#a8a29e" font-size="7" text-anchor="middle">config.yaml · .env</text>
+  <text x="935" y="846" fill="#a8a29e" font-size="7" text-anchor="middle">providers · model · API keys</text>
+
+  <!-- Memory + Skills -->
+  <rect x="1080" y="785" width="290" height="75" rx="5" fill="#fef3c7" stroke="#fcd34d" stroke-width="1"/>
+  <text x="1225" y="805" fill="#92400e" font-size="11" font-weight="bold" text-anchor="middle">Memory + Skills</text>
+  <text x="1225" y="820" fill="#78716c" font-size="8" text-anchor="middle">~/.hermes/memories/ · skills/</text>
+  <text x="1225" y="834" fill="#a8a29e" font-size="7" text-anchor="middle">用户 profile · 项目规则 · 工作流</text>
+  <text x="1225" y="846" fill="#a8a29e" font-size="7" text-anchor="middle">skip_memory=False 时全部加载</text>
+
+  <!-- Data flow arrows -->
+  <!-- TurnRunner → JSONL -->
+  <path d="M 300 505 L 300 580 Q 300 595 315 595 L 405 595 Q 415 595 415 610 L 415 655 Q 415 670 415 783" fill="none" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#ar)"/>
+  <text x="320" y="590" fill="#dc2626" font-size="7">auto-write</text>
+
+  <!-- AgentSession → JSONL (replay) -->
+  <path d="M 480 377 L 480 640 Q 480 660 455 660 L 430 660 Q 410 660 410 670 L 410 783" fill="none" stroke="#dc2626" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#ar)"/>
+  <text x="450" y="720" fill="#dc2626" font-size="7">replay on start</text>
+
+  <!-- pilotdeck.yaml → AgentWrapper -->
+  <path d="M 150 785 L 150 600 Q 150 580 600 580 L 1070 580 L 1070 507" fill="none" stroke="#8b5cf6" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#av)"/>
+  <text x="600" y="575" fill="#8b5cf6" font-size="7">model config (agent.model)</text>
+
+  <!-- Hermes Config → AIAgent -->
+  <path d="M 935 785 L 935 600 Q 935 575 1070 575 L 1070 507" fill="none" stroke="#8b5cf6" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#av)"/>
+  <text x="1000" y="565" fill="#8b5cf6" font-size="7">providers · API keys</text>
+
+  <!-- Memory/Skills → AIAgent -->
+  <path d="M 1225 785 L 1225 600 Q 1225 575 1150 575 L 1070 575 L 1070 507" fill="none" stroke="#8b5cf6" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#av)"/>
+  <text x="1150" y="555" fill="#8b5cf6" font-size="7">memory · skills · profile</text>
+
+  <!-- ════════════════════════════════════════════════════ CONFIG SECTION ════════════════════════════════════════════════════ -->
+  <rect x="15" y="898" width="670" height="130" rx="8" fill="#fff" stroke="#e2e8f0" stroke-width="1" filter="url(#shadow)"/>
+  <text x="30" y="918" fill="#64748b" font-size="12" font-weight="bold">关键配置 — pilotdeck.yaml</text>
+
+  <rect x="30" y="928" width="640" height="90" rx="5" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="45" y="945" fill="#64748b" font-size="10" font-family="monospace">agent:</text>
+  <text x="60" y="960" fill="#64748b" font-size="10" font-family="monospace">  model: hermesdeck/deepseek-v4-flash          ← 格式: provider/model</text>
+  <text x="45" y="975" fill="#64748b" font-size="10" font-family="monospace">model.providers.hermesdeck:</text>
+  <text x="60" y="990" fill="#64748b" font-size="10" font-family="monospace">  protocol: openai</text>
+  <text x="60" y="1005" fill="#64748b" font-size="10" font-family="monospace">  url: http://localhost:29553/v1             ← 末尾不加 /chat/completions</text>
+
+  <!-- ════════════════════════════════════════════════════ RULES SECTION ════════════════════════════════════════════════════ -->
+  <rect x="700" y="898" width="685" height="130" rx="8" fill="#fff" stroke="#e2e8f0" stroke-width="1" filter="url(#shadow)"/>
+  <text x="715" y="918" fill="#64748b" font-size="12" font-weight="bold">架构原则与铁律</text>
+  <text x="720" y="938" fill="#475569" font-size="9">· ✅ 不修改 PilotDeck 一行代码 — 原生 createLocalGateway + startPilotDeckServer</text>
+  <text x="720" y="952" fill="#475569" font-size="9">· ✅ beginTurn/endTurn — 同 session 并发保护 (session_busy)</text>
+  <text x="720" y="966" fill="#475569" font-size="9">· ✅ TurnRunner 自动写 JSONL + 更新 state.messages</text>
+  <text x="720" y="980" fill="#475569" font-size="9">· ✅ SessionRouter 30min 空闲回收 + resumeAgentSession 重启恢复</text>
+  <text x="720" y="994" fill="#475569" font-size="9">· ❌ tokenSaver 必须关 — 否则简单问题路由到 weak model</text>
+  <text x="720" y="1008" fill="#475569" font-size="9">· ❌ skip_memory 必须 False — 否则丢用户 profile</text>
+  <text x="720" y="1022" fill="#dc2626" font-size="9">· 🚫 永远不要 monkey-patch submitTurn — v1 血泪教训</text>
+
+  <!-- Footer -->
+  <text x="700" y="1045" fill="#94a3b8" font-size="10" text-anchor="middle">HermesDeck v3.0 · Hermes Agent × PilotDeck Fusion · OpenAI HTTP/SSE Bridge Architecture · 2026-05-30</text>
+</svg>
+
+</body></html>

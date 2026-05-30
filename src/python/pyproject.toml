@@ -1,0 +1,12 @@
+[project]
+name = "hermesdeck-sidecar"
+version = "0.1.0"
+description = "Hermes Agent Python Sidecar for HermesDeck fusion"
+requires-python = ">=3.11"
+
+[tool.setuptools.packages.find]
+include = ["hermesdeck_sidecar*"]
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"

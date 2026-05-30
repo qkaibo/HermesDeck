@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 720" font-family="monospace">
+  <defs>
+    <marker id="ac" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#22d3ee" />
+    </marker>
+    <marker id="ag" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#34d399" />
+    </marker>
+    <marker id="av" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#a78bfa" />
+    </marker>
+    <marker id="as" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#94a3b8" />
+    </marker>
+    <marker id="aa" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#f59e0b" />
+    </marker>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+    </pattern>
+    <!-- Color fills -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#020617"/>
+      <stop offset="100%" stop-color="#0a0f1f"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1100" height="720" fill="url(#bg)"/>
+  <rect width="1100" height="720" fill="url(#grid)"/>
+
+  <!-- Title -->
+  <text x="550" y="30" fill="#f8fafc" font-size="18" font-weight="bold" text-anchor="middle">HermesDeck Architecture</text>
+  <text x="550" y="48" fill="#94a3b8" font-size="11" text-anchor="middle">Hermes Agent × PilotDeck Fusion — OpenAI HTTP/SSE Bridge</text>
+
+  <!-- ============================================================ -->
+  <!-- CLIENT LAYER -->
+  <!-- ============================================================ -->
+  <rect x="40" y="70" width="130" height="50" rx="5" fill="#083344" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="105" y="92" fill="#e2e8f0" font-size="12" font-weight="bold" text-anchor="middle">Browser</text>
+  <text x="105" y="108" fill="#94a3b8" font-size="9" text-anchor="middle">WebSocket Client</text>
+
+  <rect x="210" y="70" width="140" height="50" rx="5" fill="#083344" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="280" y="92" fill="#e2e8f0" font-size="12" font-weight="bold" text-anchor="middle">PilotDeck UI</text>
+  <text x="280" y="108" fill="#94a3b8" font-size="9" text-anchor="middle">React :28789</text>
+
+  <rect x="390" y="70" width="160" height="50" rx="5" fill="#083344" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="470" y="92" fill="#e2e8f0" font-size="12" font-weight="bold" text-anchor="middle">Express Server</text>
+  <text x="470" y="108" fill="#94a3b8" font-size="9" text-anchor="middle">Vite+TSX :28789</text>
+
+  <!-- Client arrows -->
+  <line x1="170" y1="95" x2="208" y2="95" stroke="#22d3ee" stroke-width="1.5" marker-end="url(#ac)"/>
+  <path d="M 105 120 L 105 130 L 560 130 L 560 148" fill="none" stroke="#22d3ee" stroke-width="1.5" marker-end="url(#ac)"/>
+  <text x="330" y="125" fill="#94a3b8" font-size="8">WebSocket upgrade</text>
+
+  <!-- ============================================================ -->
+  <!-- GATEWAY REGION -->
+  <!-- ============================================================ -->
+  <rect x="25" y="145" width="760" height="290" rx="8" fill="rgba(217,119,6,0.03)" stroke="#f59e0b" stroke-width="1.2" stroke-dasharray="6,3"/>
+  <text x="37" y="163" fill="#f59e0b" font-size="10" font-weight="bold">PilotDeck Gateway (Node.js)  —  Port :28788</text>
+
+  <!-- GatewayWsConnection -->
+  <rect x="560" y="175" width="200" height="50" rx="5" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
+  <text x="660" y="196" fill="#e2e8f0" font-size="11" font-weight="bold" text-anchor="middle">GatewayWsConnection</text>
+  <text x="660" y="214" fill="#94a3b8" font-size="8" text-anchor="middle">WebSocket message handler</text>
+
+  <!-- Internal flow: stacked vertically on the left side -->
+  <rect x="45" y="245" width="220" height="50" rx="5" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
+  <text x="155" y="266" fill="#e2e8f0" font-size="11" font-weight="bold" text-anchor="middle">InProcessGateway</text>
+  <text x="155" y="284" fill="#94a3b8" font-size="8" text-anchor="middle">.submitTurn() — no monkey-patch</text>
+
+  <!-- SessionRouter -->
+  <rect x="300" y="245" width="220" height="50" rx="5" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
+  <text x="410" y="266" fill="#e2e8f0" font-size="11" font-weight="bold" text-anchor="middle">SessionRouter</text>
+  <text x="410" y="284" fill="#94a3b8" font-size="8" text-anchor="middle">beginTurn() / endTurn()</text>
+
+  <!-- AgentSession -->
+  <rect x="555" y="245" width="210" height="50" rx="5" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
+  <text x="660" y="266" fill="#e2e8f0" font-size="11" font-weight="bold" text-anchor="middle">AgentSession</text>
+  <text x="660" y="284" fill="#94a3b8" font-size="8" text-anchor="middle">state.messages (history)</text>
+
+  <!-- TurnRunner -->
+  <rect x="45" y="330" width="720" height="60" rx="5" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
+  <text x="405" y="354" fill="#e2e8f0" font-size="12" font-weight="bold" text-anchor="middle">TurnRunner</text>
+  <text x="405" y="374" fill="#94a3b8" font-size="9" text-anchor="middle">HTTP POST /v1/chat/completions → Python Bridge  |  JSONL transcript auto-write</text>
+
+  <!-- Gateway arrows -->
+  <line x1="660" y1="225" x2="410" y2="243" stroke="#34d399" stroke-width="1.5" marker-end="url(#ag)"/>
+  <line x1="265" y1="270" x2="298" y2="270" stroke="#34d399" stroke-width="1.5" marker-end="url(#ag)"/>
+  <line x1="520" y1="270" x2="553" y2="270" stroke="#34d399" stroke-width="1.5" marker-end="url(#ag)"/>
+  <path d="M 410 295 L 410 315 Q 410 325 300 325 L 220 325 Q 200 325 200 340 L 200 345" fill="none" stroke="#34d399" stroke-width="1.5" marker-end="url(#ag)"/>
+  <path d="M 660 295 L 660 305 Q 660 315 640 315 L 640 328" fill="none" stroke="#34d399" stroke-width="1.5" marker-end="url(#ag)"/>
+  <text x="420" y="320" fill="#94a3b8" font-size="8">beginTurn</text>
+
+  <!-- TurnRunner → Python Bridge -->
+  <line x1="765" y1="360" x2="815" y2="360" stroke="#34d399" stroke-width="2" marker-end="url(#ag)"/>
+  <text x="780" y="352" fill="#94a3b8" font-size="8">SSE</text>
+
+  <!-- ============================================================ -->
+  <!-- PYTHON BRIDGE REGION -->
+  <!-- ============================================================ -->
+  <rect x="810" y="145" width="270" height="290" rx="8" fill="rgba(6,78,59,0.04)" stroke="#34d399" stroke-width="1.2" stroke-dasharray="6,3"/>
+  <text x="822" y="163" fill="#34d399" font-size="10" font-weight="bold">Python Bridge :29553</text>
+
+  <rect x="825" y="175" width="240" height="50" rx="5" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
+  <text x="945" y="196" fill="#e2e8f0" font-size="11" font-weight="bold" text-anchor="middle">http_bridge.py</text>
+  <text x="945" y="214" fill="#94a3b8" font-size="8" text-anchor="middle">aiohttp SSE StreamResponse</text>
+
+  <line x1="945" y1="225" x2="945" y2="243" stroke="#34d399" stroke-width="1.5" marker-end="url(#ag)"/>
+
+  <rect x="825" y="245" width="240" height="50" rx="5" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
+  <text x="945" y="266" fill="#e2e8f0" font-size="11" font-weight="bold" text-anchor="middle">HermesAgentWrapper</text>
+  <text x="945" y="284" fill="#94a3b8" font-size="8" text-anchor="middle">per-session pool · thread-safe</text>
+
+  <line x1="945" y1="295" x2="945" y2="313" stroke="#34d399" stroke-width="1.5" marker-end="url(#ag)"/>
+
+  <rect x="825" y="315" width="240" height="55" rx="5" fill="#064e3b" stroke="#34d399" stroke-width="1.5"/>
+  <text x="945" y="337" fill="#e2e8f0" font-size="11" font-weight="bold" text-anchor="middle">AIAgent (run_agent.py)</text>
+  <text x="945" y="354" fill="#94a3b8" font-size="8" text-anchor="middle">memory + tools + system prompt</text>
+
+  <!-- AIAgent → DeepSeek -->
+  <line x1="1065" y1="342" x2="1085" y2="342" stroke="#34d399" stroke-width="1.5" marker-end="url(#ag)"/>
+
+  <!-- ============================================================ -->
+  <!-- DEEPSEEK EXTERNAL -->
+  <!-- ============================================================ -->
+  <rect x="940" y="400" width="140" height="45" rx="5" fill="#1e293b" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="1010" y="420" fill="#e2e8f0" font-size="11" font-weight="bold" text-anchor="middle">DeepSeek API</text>
+  <text x="1010" y="436" fill="#94a3b8" font-size="8" text-anchor="middle">api.deepseek.com</text>
+
+  <path d="M 1065 342 L 1085 342 L 1085 422 L 1082 422" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#as)"/>
+  <text x="1075" y="385" fill="#94a3b8" font-size="7">HTTPS</text>
+
+  <!-- ============================================================ -->
+  <!-- DATA LAYER -->
+  <!-- ============================================================ -->
+  <rect x="25" y="470" width="1050" height="95" rx="8" fill="rgba(76,29,149,0.04)" stroke="#a78bfa" stroke-width="1.2" stroke-dasharray="6,3"/>
+  <text x="37" y="488" fill="#a78bfa" font-size="10" font-weight="bold">Persistence &amp; Configuration</text>
+
+  <rect x="45" y="500" width="170" height="50" rx="5" fill="#4c1d95" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="130" y="522" fill="#e2e8f0" font-size="10" font-weight="bold" text-anchor="middle">pilotdeck.yaml</text>
+  <text x="130" y="540" fill="#c4b5fd" font-size="8" text-anchor="middle">model · providers</text>
+
+  <rect x="235" y="500" width="200" height="50" rx="5" fill="#4c1d95" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="335" y="522" fill="#e2e8f0" font-size="10" font-weight="bold" text-anchor="middle">JSONL Transcripts</text>
+  <text x="335" y="540" fill="#c4b5fd" font-size="8" text-anchor="middle">projects/*/chats/*.jsonl</text>
+
+  <rect x="455" y="500" width="180" height="50" rx="5" fill="#4c1d95" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="545" y="522" fill="#e2e8f0" font-size="10" font-weight="bold" text-anchor="middle">auth.db + token</text>
+  <text x="545" y="540" fill="#c4b5fd" font-size="8" text-anchor="middle">Gateway auth</text>
+
+  <rect x="655" y="500" width="200" height="50" rx="5" fill="#4c1d95" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="755" y="522" fill="#e2e8f0" font-size="10" font-weight="bold" text-anchor="middle">Hermes Config</text>
+  <text x="755" y="540" fill="#c4b5fd" font-size="8" text-anchor="middle">~/.hermes/config.yaml</text>
+
+  <rect x="875" y="500" width="180" height="50" rx="5" fill="#4c1d95" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="965" y="522" fill="#e2e8f0" font-size="10" font-weight="bold" text-anchor="middle">Memory + Skills</text>
+  <text x="965" y="540" fill="#c4b5fd" font-size="8" text-anchor="middle">~/.hermes/memories/ skills/</text>
+
+  <!-- Data flow arrows -->
+  <path d="M 405 390 L 405 440 Q 405 455 420 455 L 445 455 Q 465 455 465 470 L 465 498" fill="none" stroke="#a78bfa" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#av)"/>
+  <text x="478" y="450" fill="#a78bfa" font-size="7">auto-write</text>
+
+  <path d="M 660 295 L 660 450 Q 660 465 645 465 L 465 465 Q 450 465 450 480 L 450 498" fill="none" stroke="#a78bfa" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#av)"/>
+  <text x="500" y="460" fill="#a78bfa" font-size="7">replay on restart</text>
+
+  <path d="M 130 500 L 130 485 L 945 485 L 945 372" fill="none" stroke="#a78bfa" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="530" y="482" fill="#a78bfa" font-size="7">model config</text>
+
+  <!-- ============================================================ -->
+  <!-- LEGEND -->
+  <!-- ============================================================ -->
+  <rect x="880" y="590" width="195" height="115" rx="6" fill="rgba(15,23,42,0.8)" stroke="#1e293b" stroke-width="1"/>
+  <text x="895" y="610" fill="#f8fafc" font-size="11" font-weight="bold">Legend</text>
+
+  <rect x="895" y="620" width="14" height="10" rx="2" fill="#083344" stroke="#22d3ee" stroke-width="1"/>
+  <text x="915" y="629" fill="#94a3b8" font-size="9">Frontend (UI)</text>
+
+  <rect x="895" y="636" width="14" height="10" rx="2" fill="#064e3b" stroke="#34d399" stroke-width="1"/>
+  <text x="915" y="645" fill="#94a3b8" font-size="9">Backend (Gateway/Bridge)</text>
+
+  <rect x="895" y="652" width="14" height="10" rx="2" fill="#4c1d95" stroke="#a78bfa" stroke-width="1"/>
+  <text x="915" y="661" fill="#94a3b8" font-size="9">Data / Persistence</text>
+
+  <rect x="895" y="668" width="14" height="10" rx="2" fill="#1e293b" stroke="#94a3b8" stroke-width="1"/>
+  <text x="915" y="677" fill="#94a3b8" font-size="9">External API</text>
+
+  <line x1="895" y1="690" x2="909" y2="690" stroke="#a78bfa" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="915" y="694" fill="#94a3b8" font-size="9">Data flow</text>
+
+  <!-- Summary cards at bottom -->
+  <rect x="25" y="590" width="260" height="115" rx="6" fill="rgba(15,23,42,0.5)" stroke="#1e293b" stroke-width="1"/>
+  <circle cx="45" cy="610" r="4" fill="#22d3ee"/>
+  <text x="55" y="614" fill="#e2e8f0" font-size="11" font-weight="bold">Client → Gateway</text>
+  <text x="45" y="632" fill="#94a3b8" font-size="9">Browser WS → :28788</text>
+  <text x="45" y="648" fill="#94a3b8" font-size="9">PilotDeck UI served by Express</text>
+  <text x="45" y="664" fill="#94a3b8" font-size="9">All state on Gateway, not client</text>
+  <text x="45" y="680" fill="#94a3b8" font-size="9">No monkey-patches — pure PilotDeck</text>
+  <text x="45" y="696" fill="#94a3b8" font-size="9">SessionRouter: beginTurn/endTurn</text>
+
+  <rect x="300" y="590" width="260" height="115" rx="6" fill="rgba(15,23,42,0.5)" stroke="#1e293b" stroke-width="1"/>
+  <circle cx="320" cy="610" r="4" fill="#34d399"/>
+  <text x="330" y="614" fill="#e2e8f0" font-size="11" font-weight="bold">Gateway → Bridge → AI</text>
+  <text x="320" y="632" fill="#94a3b8" font-size="9">TurnRunner: HTTP/SSE → :29553</text>
+  <text x="320" y="648" fill="#94a3b8" font-size="9">Bridge: aiohttp → AgentWrapper</text>
+  <text x="320" y="664" fill="#94a3b8" font-size="9">Per-session AIAgent pool</text>
+  <text x="320" y="680" fill="#94a3b8" font-size="9">Thread-safe queue + 10m idle TTL</text>
+  <text x="320" y="696" fill="#94a3b8" font-size="9">→ DeepSeek API (HTTPS)</text>
+
+  <rect x="575" y="590" width="290" height="115" rx="6" fill="rgba(15,23,42,0.5)" stroke="#1e293b" stroke-width="1"/>
+  <circle cx="595" cy="610" r="4" fill="#a78bfa"/>
+  <text x="605" y="614" fill="#e2e8f0" font-size="11" font-weight="bold">Persistence &amp; Config</text>
+  <text x="595" y="632" fill="#94a3b8" font-size="9">PILOT_HOME=~/.hermesdeck/</text>
+  <text x="595" y="648" fill="#94a3b8" font-size="9">TurnRunner auto-writes JSONL</text>
+  <text x="595" y="664" fill="#94a3b8" font-size="9">AgentSession replays on restart</text>
+  <text x="595" y="680" fill="#94a3b8" font-size="9">pilotdeck.yaml: model + hermesdeck provider</text>
+  <text x="595" y="696" fill="#94a3b8" font-size="9">Hermes config/memory/skills loaded by AIAgent</text>
+</svg>
