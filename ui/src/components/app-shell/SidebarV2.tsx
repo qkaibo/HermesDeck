@@ -964,22 +964,11 @@ export default function SidebarV2({
               navigate('/');
             }
           }}
-          aria-label="PilotDeck"
-          title="PilotDeck"
+          aria-label="HermesDeck"
+          title="HermesDeck"
           className="flex min-w-0 shrink items-center gap-2 rounded-md p-1 transition hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300 dark:focus-visible:ring-neutral-700"
         >
-          <img
-            src={pilotdeckLogoLight}
-            alt="PilotDeck"
-            className="h-7 w-auto max-w-[150px] select-none object-contain dark:hidden"
-            draggable={false}
-          />
-          <img
-            src={pilotdeckLogoDark}
-            alt="PilotDeck"
-            className="hidden h-7 w-auto max-w-[150px] select-none object-contain dark:block"
-            draggable={false}
-          />
+          <span className="text-lg font-bold text-neutral-800 dark:text-neutral-100 select-none">HermesDeck</span>
         </button>
         {onCollapse ? (
           <button
